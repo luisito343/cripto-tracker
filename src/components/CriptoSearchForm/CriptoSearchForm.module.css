@@ -1,0 +1,74 @@
+.form {
+    max-width: 420px;
+    margin: 40px auto;
+    padding: 32px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: var(--black);
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+label {
+    font-size: 1.4rem;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+select {
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--black);
+    font-size: 1.2rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+select:focus {
+    border-color: #00c6ff;
+    box-shadow: 0 0 0 3px rgba(0, 198, 255, 0.2);
+}
+
+select option {
+    background: rgb(179, 178, 178);
+    color: var(--black);
+}
+
+.button {
+    margin-top: 10px;
+    padding: 14px;
+    border: none;
+    border-radius: 14px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 114, 255, 0.4);
+}
+
+.button:active {
+    transform: scale(0.98);
+}
+.error {
+    color: #ff4d4f;
+    font-size: 1.6rem;
+    text-align: center;
+    font-weight: 500;
+}
