@@ -9,6 +9,10 @@ El usuario selecciona una moneda (USD, MXN, EUR, GBP), elige una criptomoneda de
 - Máximo del mes
 - Indicador de tendencia (`UP` / `DOWN`)
 
+# URL para visitar la pagina
+
+https://cryptotrackerlg.netlify.app/
+
 ## Demo funcional
 
 Flujo principal:
