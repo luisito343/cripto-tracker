@@ -1,73 +1,95 @@
-# React + TypeScript + Vite
+# Cripto Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web para consultar cotizaciones de criptomonedas frente a distintas monedas fiat.
 
-Currently, two official plugins are available:
+El usuario selecciona una moneda (USD, MXN, EUR, GBP), elige una criptomoneda del top de mercado y obtiene:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Precio actual
+- Mínimo del mes
+- Máximo del mes
+- Indicador de tendencia (`UP` / `DOWN`)
 
-## React Compiler
+## Demo funcional
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+Flujo principal:
 
-## Expanding the ESLint configuration
+1. Carga inicial del top 20 de criptomonedas.
+2. Selección de par (`CRIPTO-FIAT`).
+3. Consulta de cotización en tiempo real.
+4. Render de resultado con estado de carga.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tecnologías
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- React 19
+- TypeScript
+- Vite
+- Zustand (estado global)
+- Axios (peticiones HTTP)
+- Zod (validación de esquemas)
+- CSS Modules
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## APIs consumidas
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- **Listado de criptomonedas**: CoinGecko (`/coins/markets`)
+- **Precio del par**: CoinDesk Data API (`/latest/tick`)
+
+> Nota: este proyecto no requiere variables de entorno para ejecutarse localmente.
+
+## Instalación y ejecución
+
+### Requisitos
+
+- Node.js 18+
+- pnpm (recomendado)
+
+### Pasos
+
+```bash
+pnpm install
+pnpm dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+La app quedará disponible en `http://localhost:5173` (puerto por defecto de Vite).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Scripts disponibles
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- `pnpm dev`: levanta servidor de desarrollo.
+- `pnpm build`: compila TypeScript y genera build de producción.
+- `pnpm preview`: previsualiza el build.
+- `pnpm lint`: ejecuta ESLint.
+
+## Estructura del proyecto
+
+```text
+src/
+  components/
+    CriptoSearchForm/   # Formulario de selección de par
+    CryptoResult/       # Resultado de cotización
+  data/
+    index.ts            # Monedas fiat disponibles
+  Schema/
+    cripto-schema.ts    # Esquemas Zod
+  services/
+    CriptoService.ts    # Llamadas a APIs externas
+  types/
+    index.ts            # Tipos TypeScript inferidos con Zod
+  store.ts              # Store global con Zustand
+  App.tsx               # Orquesta carga inicial y layout principal
 ```
+
+## Arquitectura resumida
+
+- `App.tsx` dispara `fetchTopCryptos()` al montar.
+- `CriptoSearchForm` obtiene criptos del store, valida selección y ejecuta `fecthCurrencyPrice(pair)`.
+- `store.ts` centraliza estado, loading y transformación de respuesta API.
+- `CryptoResult` muestra spinner durante carga y renderiza datos del par consultado.
+
+## Mejoras futuras sugeridas
+
+- Manejo explícito de errores de red/API en UI.
+- Selector de moneda base dinámico para el endpoint de mercado.
+- Pruebas unitarias del store y componentes clave.
+
+---
+
+Proyecto creado con fines educativos para práctica de React + TypeScript + manejo de APIs.
